@@ -1,10 +1,11 @@
 import { getPayload } from "payload";
-import { Category } from "@/payload-types";
 import configPromise from "@payload-config";
 
-import { Footer } from "./footer";
 import { Navbar } from "./navbar";
+import { Footer } from "./footer";
+import { CustomCategory } from "./types";
 import { SearshFilters } from "./search-filters";
+import { Category } from "@/payload-types";
 
 interface Props {
   children: React.ReactNode;
@@ -23,19 +24,29 @@ const Layout = async ({ children }: Props) => {
       parent: {
         exists: false
       }
-    }
+    },
+    sort: "name"
   });
 
-  const formattedData = data.docs.map(doc => ({
-    ...doc,
-    subcategories:
-      doc.subcategories?.docs ??
-      [].map(doc => ({
-        // Because of "depth: 1" we are confident doc will be a type of "Category"
-        ...(doc as Category),
-        subcategories: undefined
-      }))
-  }));
+  // const formattedData: CustomCategory[] = data.docs.map(doc => ({
+  //   ...doc,
+  //   subcategories:
+  //     doc.subcategories?.docs ??
+  //     [].map(doc => ({
+  //       // Because of "depth: 1" we are confident doc will be a type of "Category"
+  //       ...(doc as Category),
+  //       subcategories: undefined
+  //     }))
+  // }));
+
+  const formattedData: CustomCategory[] = data.docs.map(
+    (cat): CustomCategory => ({
+      ...cat,
+      subcategories: (cat.subcategories?.docs || []).filter(
+        (sub): sub is Category => typeof sub === "object" && sub !== null
+      )
+    })
+  );
 
   return (
     <div className="flex flex-col min-h-screen">
