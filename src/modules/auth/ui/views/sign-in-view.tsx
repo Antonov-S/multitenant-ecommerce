@@ -7,12 +7,12 @@ import { useForm } from "react-hook-form";
 import { Poppins } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
 import {
   Form,
   FormControl,
@@ -31,6 +31,7 @@ const poppins = Poppins({
 
 export const SignInView = () => {
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const login = useMutation(
@@ -38,7 +39,8 @@ export const SignInView = () => {
       onError: error => {
         toast.error(error.message);
       },
-      onSuccess: () => {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(trpc.auth.session.queryFilter());
         router.push("/");
       }
     })
