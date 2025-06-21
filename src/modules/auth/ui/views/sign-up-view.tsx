@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Form,
   FormControl,
@@ -32,6 +32,7 @@ const poppins = Poppins({
 
 export const SignUpView = () => {
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const register = useMutation(
@@ -39,7 +40,8 @@ export const SignUpView = () => {
       onError: error => {
         toast.error(error.message);
       },
-      onSuccess: () => {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(trpc.auth.session.queryFilter());
         router.push("/");
       }
     })
@@ -66,7 +68,7 @@ export const SignUpView = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5">
-      <div className="bg-[#F4F4F0], h-screen w-full lg:col-span-3 overflow-y-auto">
+      <div className="bg-[#F4F4F0] h-screen w-full lg:col-span-3 overflow-y-auto">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
