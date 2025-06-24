@@ -17,9 +17,12 @@ export const categoriesRouter = createTRPCRouter({
 
     const formattedData = data.docs.map(cat => ({
       ...cat,
-      subcategories: (cat.subcategories?.docs || []).filter(
-        (sub): sub is Category => typeof sub === "object" && sub !== null
-      )
+      // subcategories: (cat.subcategories?.docs || []).filter(
+      //   (sub): sub is Category => typeof sub === "object" && sub !== null
+      // )
+      subcategories: (cat.subcategories?.docs || []).map(sub => ({
+        ...(sub as Category)
+      }))
     }));
 
     return formattedData;
