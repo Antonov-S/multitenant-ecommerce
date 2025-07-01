@@ -6,17 +6,9 @@ import { CategoriesGetManyOutput } from "@/modules/types";
 interface SubcategoryMenuProps {
   category: CategoriesGetManyOutput[1];
   isOpen: boolean;
-  position: {
-    top: number;
-    left: number;
-  };
 }
 
-export const SubcategoryMenu = ({
-  position,
-  category,
-  isOpen
-}: SubcategoryMenuProps) => {
+export const SubcategoryMenu = ({ category, isOpen }: SubcategoryMenuProps) => {
   if (
     !isOpen ||
     !category.subcategories ||
@@ -29,10 +21,10 @@ export const SubcategoryMenu = ({
 
   return (
     <div
-      className="fixed z-100"
+      className="absolute z-100"
       style={{
-        top: position.top,
-        left: position.left
+        top: "100%",
+        left: 0
       }}
     >
       {/* Invisible bridge to maintain hover */}
