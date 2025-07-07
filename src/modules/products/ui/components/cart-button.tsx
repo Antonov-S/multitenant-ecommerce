@@ -16,11 +16,11 @@ export const CartButton = ({ tenantSlug, productId }: CartButtonProps) => {
       variant="elevated"
       className={cn(
         "flex-1 bg-pink-400",
-        cart.isProductInCard(productId) && "bg-white"
+        cart.isProductInCart(productId) && "bg-white"
       )}
       onClick={() => cart.toggleProduct(productId)}
     >
-      {cart.isProductInCard(productId) ? "Remove from cart" : "Add to cart"}
+      {cart.isProductInCart(productId) ? "Remove from cart" : "Add to cart"}
     </Button>
   );
 };

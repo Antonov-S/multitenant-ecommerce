@@ -9,8 +9,8 @@ interface CartState {
   tenantCarts: Record<string, TenantCard>;
   addProduct: (tenantSlug: string, productId: string) => void;
   removeProduct: (tenantSlug: string, productId: string) => void;
-  clearCard: (tenantSlug: string) => void;
-  clearAllCards: () => void;
+  clearCart: (tenantSlug: string) => void;
+  clearAllCarts: () => void;
   getCartByTenant: (tenantSlug: string) => string[];
 }
 
@@ -42,7 +42,7 @@ export const useCartStore = create<CartState>()(
             }
           }
         })),
-      clearCard: tenantSlug =>
+      clearCart: tenantSlug =>
         set(state => ({
           tenantCarts: {
             ...state.tenantCarts,
@@ -51,7 +51,7 @@ export const useCartStore = create<CartState>()(
             }
           }
         })),
-      clearAllCards: () => set({ tenantCarts: {} }),
+      clearAllCarts: () => set({ tenantCarts: {} }),
       getCartByTenant: tenantSlug =>
         get().tenantCarts[tenantSlug]?.productIds || []
     }),
