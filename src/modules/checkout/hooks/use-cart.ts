@@ -5,8 +5,8 @@ export const useCart = (tenantSlug: string) => {
     getCartByTenant,
     addProduct,
     removeProduct,
-    clearCard,
-    clearAllCards
+    clearCart,
+    clearAllCarts
   } = useCartStore();
 
   const productIds = getCartByTenant(tenantSlug);
@@ -19,12 +19,12 @@ export const useCart = (tenantSlug: string) => {
     }
   };
 
-  const isProductInCard = (productId: string) => {
+  const isProductInCart = (productId: string) => {
     return productIds.includes(productId);
   };
 
   const clearTenantCart = () => {
-    clearCard(tenantSlug);
+    clearCart(tenantSlug);
   };
 
   return {
@@ -32,9 +32,9 @@ export const useCart = (tenantSlug: string) => {
     addProduct: (productId: string) => addProduct(tenantSlug, productId),
     removeProduct: (productId: string) => removeProduct(tenantSlug, productId),
     clearCart: clearTenantCart,
-    clearAllCards,
+    clearAllCarts,
     toggleProduct,
-    isProductInCard,
+    isProductInCart,
     totalItems: productIds.length
   };
 };
