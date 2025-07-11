@@ -61,7 +61,7 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
   useEffect(() => {
     if (error?.data?.code === "NOT_FOUND") {
       clearCart();
-      toast.warning("Invalid products found, card cleard");
+      toast.warning("Invalid products found, card cleared");
     }
   }, [error, clearCart]);
 
