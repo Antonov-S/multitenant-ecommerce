@@ -24,7 +24,7 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
   const { productIds, removeProduct, clearCart } = useCart(tenantSlug);
 
   const trpc = useTRPC();
-  const queryClinet = useQueryClient();
+  const queryClient = useQueryClient();
   const { data, error, isLoading } = useQuery(
     trpc.checkout.getProducts.queryOptions({
       ids: productIds
@@ -54,7 +54,7 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
     if (states.success) {
       setStates({ success: false, cancel: false });
       clearCart();
-      queryClinet.invalidateQueries(trpc.library.getMany.infiniteQueryFilter());
+      queryClient.invalidateQueries(trpc.library.getMany.infiniteQueryFilter());
       router.push("/library");
     }
   }, [
@@ -62,7 +62,7 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
     clearCart,
     router,
     setStates,
-    queryClinet,
+    queryClient,
     trpc.library.getMany
   ]);
 

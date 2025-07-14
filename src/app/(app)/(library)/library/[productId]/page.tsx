@@ -13,20 +13,20 @@ interface PageParams {
 const Page = async ({ params }: PageParams) => {
   const { productId } = await params;
 
-  const queryClinet = getQueryClient();
-  void queryClinet.prefetchQuery(
+  const queryClient = getQueryClient();
+  void queryClient.prefetchQuery(
     trpc.library.getOne.queryOptions({
       productId
     })
   );
-  void queryClinet.prefetchQuery(
+  void queryClient.prefetchQuery(
     trpc.reviews.getOne.queryOptions({
       productId
     })
   );
 
   return (
-    <HydrationBoundary state={dehydrate(queryClinet)}>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <ProductView productId={productId} />
     </HydrationBoundary>
   );
