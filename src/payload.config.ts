@@ -28,6 +28,9 @@ export default buildConfig({
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname)
+    },
+    components: {
+      beforeNavLinks: ["@/components/stripe-verify#StripeVerify"]
     }
   },
   collections: [
