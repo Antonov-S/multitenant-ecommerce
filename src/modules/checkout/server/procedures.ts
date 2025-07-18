@@ -11,7 +11,7 @@ import {
   createTRPCRouter,
   protectedProcedure
 } from "@/trpc/init";
-import { te } from "date-fns/locale";
+
 import { PLATFORM_FEE_PERCENTAGE } from "@/constants";
 
 export const checkoutRouter = createTRPCRouter({
@@ -81,6 +81,11 @@ export const checkoutRouter = createTRPCRouter({
             {
               "tenant.slug": {
                 equals: input.tenantSlug
+              }
+            },
+            {
+              isArchived: {
+                not_equals: true
               }
             }
           ]
@@ -191,9 +196,18 @@ export const checkoutRouter = createTRPCRouter({
         collection: "products",
         depth: 2, // populate category, image, tenant and tenant.image
         where: {
-          id: {
-            in: input.ids
-          }
+          and: [
+            {
+              id: {
+                in: input.ids
+              }
+            },
+            {
+              isArchived: {
+                not_equals: true
+              }
+            }
+          ]
         }
       });
 
