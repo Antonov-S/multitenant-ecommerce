@@ -7,6 +7,8 @@ import { getQueryClient, trpc } from "@/trpc/server";
 import { loadProductFilters } from "@/modules/products/search-params";
 import { ProductListView } from "@/modules/products/ui/views/product-list-view";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ category: string }>;
   searchParams: Promise<SearchParams>;
